@@ -3,24 +3,30 @@ import scriptlike;
 struct Movie {
     string title = "[No title. This is an error.]";
     int elo = 1000;
-    invariant(num_games_played >= 0);
+    int num_wins = 0, num_losses = 0;
+    int opponent_elo_sum = 0;
 }
 
 int num_games_played = 0;
 Movie[] all_movies;
 
+void update_elo(ref Movie m) {
+    m.elo = (m.opponent_elo_sum + (400 * (m.num_wins - m.num_losses))) 
+                / num_games_played;
+}
+
 void faceoff(ref Movie a, ref Movie b) {
     num_games_played += 1;
 
     void defeats(ref Movie winner, ref Movie loser) {
-        writefln("[%s] --> %s + ((%s + 400) / %s)", winner.title, winner.elo, loser.elo, num_games_played);
-        writefln("[%s] --> %s + ((%s - 400) / %s)", loser.title, loser.elo, winner.elo, num_games_played);
+        winner.opponent_elo_sum += loser.elo;
+        loser.opponent_elo_sum  += winner.elo;
 
-        immutable int winner_elo = winner.elo;
-        immutable int loser_elo  = loser.elo;
+        winner.num_wins  += 1;
+        loser.num_losses += 1;
 
-        winner.elo += (loser_elo  + 400) / num_games_played;
-        loser.elo  += (winner_elo - 400) / num_games_played;
+        winner.update_elo;
+        loser.update_elo;
     }
 
     if (userInput!bool("Do you like [%s] better than [%s]?".format(a.title, b.title))) {
@@ -46,10 +52,21 @@ void list_all_movies() {
         return;
     }
 
-    import std.algorithm : sort;
-    foreach (movie; all_movies[]) {
-        writefln("%+4s : %s", movie.elo, movie.title);
+    float max = all_movies[0].elo;
+
+    if (all_movies.length >= 2) {
+        foreach (m; all_movies) {
+            if (m.elo > max) {
+                max = m.elo;
+            }
+        }
     }
+
+    foreach (movie; all_movies[]) {
+        float rating = (10.0 * movie.elo) / max;
+        writefln("%+04d : %02.03f : %s", movie.elo, rating, movie.title);
+    }
+
 }
 
 void main() {
