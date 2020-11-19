@@ -46,11 +46,13 @@ void main(string[] args)
         return fights.canFind(fight) || fights.canFind(reverse(fight));
     }
 
-    foreach (ref movie; all_movies[]) {
-        foreach (ref other_movie; all_movies[].filter!(m => m!=movie)) {
-            auto fight = Fight(movie.title, other_movie.title);
+    import std.random;
+
+    foreach (ref a; all_movies[].randomShuffle) {
+        foreach (ref b; all_movies[].randomShuffle.filter!(m => m!=a)) {
+            immutable fight = Fight(a.title, b.title);
             if (has_happened(fight)) continue;
-            faceoff(movie, other_movie);
+            faceoff(a, b);
             fights ~= fight;
         }         
     }
