@@ -1,5 +1,9 @@
 # movie-faceoff
 
+Basically this is a really dumb way to rank your favourite movies. Or songs, or
+anything else, I guess. It has a simple ELO implementation which I'm like 99%
+sure is wrong, and one movie "beats" another when you say you like it more.
+
 ## Prerequisites
 
 A D compiler and Dub. The easiest way to get these is to grab the installer from https://dlang.org .
