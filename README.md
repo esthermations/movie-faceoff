@@ -1,8 +1,9 @@
 # movie-faceoff
 
 Basically this is a really dumb way to rank your favourite movies. Or songs, or
-anything else, I guess. It has a simple ELO implementation which I'm like 99%
-sure is wrong, and one movie "beats" another when you say you like it more.
+anything else, I guess. It uses ELO and pits movies against eachother in a fight 
+where you decide the winner by saying you like one more than the other. It's
+kind of hardcore, honestly.
 
 ## Prerequisites
 
