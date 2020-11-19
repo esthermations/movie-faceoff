@@ -1,46 +1,29 @@
 import std.stdio;
+import elo.rating;
 
 struct Movie {
-    string title            = "[No title. This is an error.]";
-    int    elo              = 1000;
-    int    num_wins         = 0;
-    int    num_losses       = 0;
-    int    opponent_elo_sum = 0;
+    string title = "[No title. This is an error.]";
+    int    elo   = 1000;
 }
 
-int num_games_played = 0;
 Movie[] all_movies;
 
-void update_elo(ref Movie m) {
-    m.elo = (m.opponent_elo_sum + (400 * (m.num_wins - m.num_losses))) / num_games_played;
-}
-
 void faceoff(ref Movie a, ref Movie b) {
-    num_games_played += 1;
-
-    void defeats(ref Movie winner, ref Movie loser) {
-        winner.opponent_elo_sum += loser.elo;
-        loser.opponent_elo_sum += winner.elo;
-
-        winner.num_wins += 1;
-        loser.num_losses += 1;
-
-        winner.update_elo;
-        loser.update_elo;
-    }
-
     writefln("Do you like [%s] better than [%s]?", a.title, b.title);
     write("(y/n): ");
 
     import std.string;
     immutable response = readln().toLower;
-    immutable bool yes = (response.startsWith('y'));
+    immutable a_defeats_b = response.startsWith('y');
 
-    if (yes) {
-        defeats(a, b);
-    } else {
-        defeats(b, a);
-    }
+    immutable a_original_elo = a.elo;
+    immutable b_original_elo = b.elo;
+
+    alias Win  = RatingSystem.Result.Win;
+    alias Loss = RatingSystem.Result.Loss;
+
+    a.elo = RatingSystem.GetNewRating(a_original_elo, b_original_elo, a_defeats_b ? Win : Loss);
+    b.elo = RatingSystem.GetNewRating(a_original_elo, b_original_elo, a_defeats_b ? Loss : Win);
 }
 
 void main(string[] args)

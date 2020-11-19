@@ -4,7 +4,7 @@
 		"Esther O'Keefe"
 	],
 	"dependencies": {
-        "scriptlike": "~>0.10.2"
+		"elo-rating-d": "~>1.0.0"
 	},
 	"description": "Use ELO to rate your movies",
 	"copyright": "Copyright © 2018, Esther O'Keefe",
