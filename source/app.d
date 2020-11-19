@@ -1,12 +1,12 @@
 import scriptlike;
 import std.stdio;
 
-struct Movie
-{
-    string title = "[No title. This is an error.]";
-    int elo = 1000;
-    int num_wins = 0, num_losses = 0;
-    int opponent_elo_sum = 0;
+struct Movie {
+    string title            = "[No title. This is an error.]";
+    int    elo              = 1000;
+    int    num_wins         = 0;
+    int    num_losses       = 0;
+    int    opponent_elo_sum = 0;
 }
 
 int num_games_played = 0;

@@ -1,12 +1,12 @@
 {
 	"name": "movie-faceoff",
 	"authors": [
-		"Walter O'Keefe"
+		"Esther O'Keefe"
 	],
 	"dependencies": {
         "scriptlike": "~>0.10.2"
 	},
 	"description": "Use ELO to rate your movies",
-	"copyright": "Copyright © 2018, Walter O'Keefe",
+	"copyright": "Copyright © 2018, Esther O'Keefe",
 	"license": "GPL3+"
 }
